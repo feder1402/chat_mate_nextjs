@@ -1,0 +1,192 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 262.1 83.3% 57.8%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --g-color-black: #000;
+    --g-color-white: #fff;
+  
+    --g-color-grey-100: #f1f2f4;
+    --g-color-grey-600: #5d636f;
+    --g-color-grey-700: #434851;
+    --g-color-grey-900: #121417;
+  
+    --g-box-shadow: 0px 6px 12px rgba(18, 20, 23, 0.06),
+      0px 15px 24px rgba(18, 20, 23, 0.07), 0px -4px 12px rgba(18, 20, 23, 0.05);
+  
+    --g-font-family: "Helvetica";
+  
+    --g-font-size-x-small: 0.75rem; /* 12px */
+    --g-font-size-small: 0.875rem; /* 14px */
+    --g-font-size-base: 1rem; /* 16px */
+    --g-font-size-large: 1.25rem; /* 20x */
+    --g-font-size-x-large: 1.5rem; /* 24px */
+    --g-font-size-2x-large: 2rem; /* 32px */
+    --g-font-size-3x-large: 2.5rem; /* 40px */
+    --g-font-size-4x-large: 4rem; /* 64px */
+  
+    --g-font-weight-base: 400;
+    --g-font-weight-semi-bold: 500;
+    --g-font-weight-bold: 600;
+    --g-font-weight-black: 700;
+  
+    --g-border-radius-small: 0.5rem;
+    --g-border-radius-base: 1rem;
+    --g-border-radius-large: 1.5rem;
+  
+    --g-spacing-small: 0.5rem; /* 8px */
+    --g-spacing-base: 1rem; /* 16px */
+    --g-spacing-large: 1.5rem; /* 24px */
+    --g-spacing-x-large: 2rem; /* 32px */
+    --g-spacing-2x-large: 2.5rem; /* 40px */
+    --g-spacing-3x-large: 3rem; /* 48px */
+    --g-spacing-6x-large: 6rem; /* 96px */
+  
+  }
+
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 263.4 70% 50.4%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 263.4 70% 50.4%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+li {
+  list-style: inside;
+  list-style-type: decimal;
+  margin: 1rem;
+  padding: 0;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.text-display-2 {
+  font-size: var(--g-font-size-3x-large);
+  font-weight: var(--g-font-weight-black);
+  line-height: 1.4;
+}
+
+.nav {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.avatar {
+  align-items: center;
+  background-color: var(--g-color-grey-100);
+  border-radius: var(--g-border-radius-large);
+  display: flex;
+  height: var(--g-spacing-3x-large);
+  justify-content: center;
+  text-align: center;
+  width: var(--g-spacing-3x-large);
+}
+
+.profile-blob {
+  align-items: center;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: auto 1fr;
+}
+
+.profile-image {
+  border-radius: 50%; /* This creates the circle */
+  overflow: hidden; /* Hides any image outside the circle */
+}
+
+.profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image fills the circle and maintains aspect ratio */
+}

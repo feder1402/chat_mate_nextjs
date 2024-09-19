@@ -1,0 +1,37 @@
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
+import Image from 'next/image';
+
+type UserProfileProps = {
+    user?: KindeUser<unknown>;
+};
+export default function UserProfile({ user }: UserProfileProps) {
+    return (
+        <div className="profile-blob">
+            {user?.picture ? (
+                <div className="profile-image">
+                    <Image
+                        className="avatar"
+                        src={user?.picture}
+                        alt="user profile avatar"
+                        referrerPolicy="no-referrer"
+                        width={48}
+                        height={48}
+                    />
+                </div>
+            ) : (
+                <div className="avatar shadow-md">
+                    {user?.given_name?.[0]}
+                    {user?.family_name?.[0]}
+                </div>
+            )}
+            <div>
+                <p className="text-heading-2 font-medium">
+                    {user?.given_name} {user?.family_name}
+                </p>
+
+                <LogoutLink className="text-subtle">Log out</LogoutLink>
+            </div>
+        </div>
+    )
+}

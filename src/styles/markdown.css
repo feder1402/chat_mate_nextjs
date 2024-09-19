@@ -1,0 +1,8 @@
+
+li > p {
+    display: inline;
+  }
+  
+  li > li {
+    list-style: none;
+  }
