@@ -1,5 +1,4 @@
 import { ChatState } from './ChatTypes'
-import useScrollToBottom from '@/hooks/useScrollToBottom'
 import ChatMessage from './ChatMessage'
 import { useEffect, useRef } from 'react';
 
