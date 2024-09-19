@@ -25,7 +25,7 @@ export default function ChatBot() {
   const { messages, error, isLoading } = state
 
   return (
-    <div className="container flex flex-col h-screen mx-auto p-4">
+    <div className="container flex flex-col h-full mx-auto p-4">
       <ChatMessages messages={messages} error={error} isLoading={isLoading} />
       <UserQuestion onSubmit={onQuestionSubmitted} isLoading={state.isLoading} />
     </div>

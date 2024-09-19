@@ -1,17 +1,26 @@
 import { ChatState } from './ChatTypes'
 import useScrollToBottom from '@/hooks/useScrollToBottom'
 import ChatMessage from './ChatMessage'
+import { useEffect, useRef } from 'react';
 
 type ChatMessagesProps = Partial<ChatState>
 
 export default function ChatMessages({ messages, error, isLoading }: ChatMessagesProps) {
 
-    const scrollAreaRef = useScrollToBottom()
+//    const scrollAreaRef = useScrollToBottom()
+
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (ref.current) {
+        ref.current.scrollTop = ref.current.scrollHeight;
+      }
+    }, [messages, error, isLoading]);
 
     return (
         <div
-            ref={scrollAreaRef}
-            className="flex-grow mb-4 p-4 border  bg-slate-50 rounded-md shadow-md h-full max-h-screen overflow-y-hidden scroll-smooth"
+            ref={ref}
+            className="flex-grow mb-4 p-4 border  bg-slate-50 rounded-md shadow-md overscroll-none overflow-auto"
         >
             {messages && messages.map((message, index) => (
                 <ChatMessage key={index} message={message} />
