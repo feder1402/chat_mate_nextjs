@@ -6,8 +6,6 @@ type ChatMessagesProps = Partial<ChatState>
 
 export default function ChatMessages({ messages, error, isLoading }: ChatMessagesProps) {
 
-//    const scrollAreaRef = useScrollToBottom()
-
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -19,7 +17,7 @@ export default function ChatMessages({ messages, error, isLoading }: ChatMessage
     return (
         <div
             ref={ref}
-            className="flex-grow mb-4 p-4 border  bg-slate-50 rounded-md shadow-md overscroll-none overflow-auto"
+            className="flex-grow mb-4 p-4 border bg-slate-50 rounded-md shadow-md overscroll-none overflow-auto"
         >
             {messages && messages.map((message, index) => (
                 <ChatMessage key={index} message={message} />
