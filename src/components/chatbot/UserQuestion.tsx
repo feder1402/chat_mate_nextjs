@@ -8,11 +8,11 @@ type UserQuestionProps = {
     isLoading?: boolean
 }
 
-export default function UserQuestion({onSubmit, isLoading}: UserQuestionProps) {
+export default function UserQuestion({ onSubmit, isLoading }: UserQuestionProps) {
     const ref = useRef<HTMLFormElement>(null)
 
     return (
-        <form 
+        <form
             ref={ref}
             onSubmit={(e) => {
                 e.preventDefault()
@@ -22,7 +22,7 @@ export default function UserQuestion({onSubmit, isLoading}: UserQuestionProps) {
                     onSubmit(formData)
                 }
             }}
-            className="flex gap-2 shadow-md" 
+            className="flex gap-2 shadow-md"
         >
             <Label htmlFor="message" className="sr-only">Message</Label>
             <Input
