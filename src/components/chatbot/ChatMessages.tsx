@@ -1,4 +1,3 @@
-import ReactMarkdown from 'react-markdown'
 import { ChatState } from './ChatTypes'
 import useScrollToBottom from '@/hooks/useScrollToBottom'
 import ChatMessage from './ChatMessage'
