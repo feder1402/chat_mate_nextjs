@@ -29,14 +29,17 @@ export async function chatAction(
   }
 
   try {
+    console.log("Retrieving documents for message: ", message);
      const documents = await retrieveDocuments(message);
      const context = documents.map((doc) => `<article>\n\n${doc.pageContent}\n\n</article>`).join("\n");
 
     const prompt = await getPrompt({query: message, context});
     const response = await chain.invoke({ input: prompt });
     state.messages.push({ role: "bot", content: response.response });
+    console.log("Returning response for message: ", message);
     return { ...state };
   } catch (error) {
+    console.error("An error occurred while processing the request: ", error);
     return {
       ...state,
       error: `An error occurred while processing the request: ${error}`,
