@@ -8,6 +8,7 @@ import { getPrompt } from "./PromptTemplate";
 import { ChatState } from "@/components/chatbot/ChatTypes";
 
 if (!process.env.OPENAI_API_KEY) {
+  console.log("Missing OpenAI API Key");
   throw new Error("Missing OpenAI API Key");
 }
 

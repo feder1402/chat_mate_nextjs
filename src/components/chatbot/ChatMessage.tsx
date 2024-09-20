@@ -7,7 +7,7 @@ type ChatMessageProps = { message: Message }
 
 export default function ChatMessages({ message }: ChatMessageProps) {
     return (
-        <div className={`mb-2 p-2 rounded-lg ${message.role === 'user' ? 'bg-purple-100 ml-auto' : 'bg-gray-100'} max-w-[60%]`} >
+        <div className={`prose prose-slate mb-2 p-2 rounded-lg ${message.role === 'user' ? 'bg-purple-100 ml-auto' : 'bg-gray-100'} max-w-[60%]`} >
             <p><b>{message.role === 'user' ? 'You' : '🧉 ChatMate'}:</b></p>
             <Markdown remarkPlugins={[remarkGfm]}>{message.content}</Markdown>
         </div>

@@ -131,24 +131,6 @@ body {
   }
 }
 
-li {
-  list-style: inside;
-  list-style-type: decimal;
-  margin: 1rem;
-  padding: 0;
-}
-
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-size: inherit;
-  font-weight: inherit;
-}
-
 .text-display-2 {
   font-size: var(--g-font-size-3x-large);
   font-weight: var(--g-font-weight-black);
