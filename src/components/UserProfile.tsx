@@ -1,7 +1,6 @@
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-//import Image from 'next/image';
 
 type UserProfileProps = {
     user?: KindeUser<unknown>;

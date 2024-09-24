@@ -13,6 +13,7 @@ const useChat = () => {
         const userMessage: ChatMessage = { role: 'user', content: query }
         const systemResponse : ChatMessage = { role: 'bot', content: '' }
         const newMessages = [...messages, userMessage, systemResponse]
+        setError('')
         setMessages(newMessages)
         setIsThinking(true)
         try {
@@ -32,16 +33,17 @@ const useChat = () => {
                         }
                 catch (e) {
                     if (e instanceof Error) {
-                        console.warn(e.message)
+                        setError(e.message)
                     } else {
-                        console.warn('An unknown error occurred')
+                        setError('Unknown error occurred while processing the response')
                     }
                 }
             }
         } catch (error) {
             if (error instanceof Error) {
                 setError(error.message)
-                console.error('An error occurred:', error.message)
+            } else {
+                setError('Unknown error occurred while preparing to send ')
             }
         } finally {
             setIsThinking(false)

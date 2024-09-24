@@ -1,6 +1,8 @@
+import { Loader } from 'lucide-react';
 import { ChatState } from '@/types/ChatTypes'
 import ChatMessage from './ChatMessage'
 import { useEffect, useRef } from 'react';
+import Feedback from '@/components/feedback';
 
 type ChatMessagesProps = Partial<ChatState>
 
@@ -26,7 +28,12 @@ export default function ChatMessages({ messages, error, isLoading }: ChatMessage
                 <div className="text-red-500 mb-2" role="alert">Error: {error}</div>
             )}
             {isLoading && (
-                <div className="text-blue-500 mb-2" role="alert">Thinking...</div>
+                <span className="text-blue-500 mb-2">
+                    <Loader /> Thinking...
+                </span>
+            )}
+            { messages && messages.length > 0 && !error && !isLoading && (
+                <Feedback />
             )}
         </div>
     )
