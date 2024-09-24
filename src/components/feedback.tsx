@@ -4,9 +4,6 @@ import { useState } from "react"
 import { ThumbsDown, ThumbsUp, X } from 'lucide-react';
 
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
 
 export default function Feedback() {
   const [showFeedbackOptions, setShowFeedbackOptions] = useState(false)
