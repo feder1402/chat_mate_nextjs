@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { useRef } from "react"
 
 type UserQuestionProps = {
-    onSubmit: (payload: FormData) => void
+    onSubmit: (payload: string) => void
     isLoading?: boolean
 }
 
@@ -19,7 +19,8 @@ export default function UserQuestion({ onSubmit, isLoading }: UserQuestionProps)
                 if (ref.current) {
                     const formData = new FormData(ref.current)
                     ref.current.reset()
-                    onSubmit(formData)
+                    const message = formData.get('message') as string
+                    onSubmit(message)
                 }
             }}
             className="flex gap-2 shadow-md"

@@ -1,4 +1,4 @@
-import { ChatState } from './ChatTypes'
+import { ChatState } from '@/types/ChatTypes'
 import ChatMessage from './ChatMessage'
 import { useEffect, useRef } from 'react';
 

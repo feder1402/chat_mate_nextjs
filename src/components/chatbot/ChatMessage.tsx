@@ -1,9 +1,9 @@
-import { Message } from "./ChatTypes"
+import { ChatMessage } from '@/types/ChatTypes'
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
 import '@/styles/markdown.css'
 
-type ChatMessageProps = { message: Message }
+type ChatMessageProps = { message: ChatMessage }
 
 export default function ChatMessages({ message }: ChatMessageProps) {
     return (

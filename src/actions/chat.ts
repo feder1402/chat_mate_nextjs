@@ -5,7 +5,7 @@ import { ConversationChain } from "langchain/chains";
 import { BufferMemory } from "langchain/memory";
 import { retrieveDocuments } from "./VectorStore";
 import { getPrompt } from "./PromptTemplate";
-import { ChatState } from "@/components/chatbot/ChatTypes";
+import { ChatState } from "@/types/ChatTypes";
 
 if (!process.env.OPENAI_API_KEY) {
   console.log("Missing OpenAI API Key");
