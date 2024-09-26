@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     /**
      * Wait for a run id to be generated.
      */
-    let chainRunId;
+    let chainRunId: string = "";
     const stream: ReadableStream = await new Promise((resolve) => {
       const chainStream = chain.stream(
         { query, history, context },
@@ -65,7 +65,9 @@ export async function POST(req: NextRequest) {
           callbacks: [
             {
               handleChainStart(_llm, _prompts, runId) {
-                chainRunId = runId;
+                if (!chainRunId) {
+                    chainRunId = runId;
+                }
                 resolve(chainStream);
               },
             },
@@ -77,9 +79,9 @@ export async function POST(req: NextRequest) {
       );
     });
 
-    return new Response(stream, {
+    return new NextResponse(stream, {
       headers: {
-        "x-langsmith-run-id": chainRunId ?? "",
+        "x-langsmith-run-id": chainRunId,
       },
     });
   } catch (e) {

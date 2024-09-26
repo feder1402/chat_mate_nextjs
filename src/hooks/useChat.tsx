@@ -5,6 +5,7 @@ const useChat = () => {
     const [messages, setMessages] = useState<ChatMessage[]>([])
     const [error, setError] = useState('')
     const [isThinking, setIsThinking] = useState(false)
+    const [runId, setRunId] = useState<string | null | undefined>(undefined)
 
     const onSubmit = async (query: string) => {
         if (!query || query.trim() === '') {
@@ -17,18 +18,22 @@ const useChat = () => {
         setMessages(newMessages)
         setIsThinking(true)
         try {
-            const chunk = await streamingFetch('/api/chat', {
+            const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ messages: [userMessage] })
             })
-            let response = ''
+            const runId = response.headers.get('x-langsmith-run-id');
+            console.log('Run ID:', runId)
+            setRunId(runId)  
+            const chunk = await responseIterator(response)
+            let content = ''
             for await (const value of chunk) {
                 try {
-                    response += value;
-                    newMessages[newMessages.length - 1].content = response
+                    content += value;
+                    newMessages[newMessages.length - 1].content = content
                     setMessages([...newMessages])
                         }
                 catch (e) {
@@ -50,11 +55,10 @@ const useChat = () => {
         }
     }
 
-    return { messages, onSubmit, error, isThinking }
+    return {messages, onSubmit, error, isThinking, runId}
 }
 
-export async function* streamingFetch(input: RequestInfo | URL, init?: RequestInit) {
-    const response = await fetch(input, init)
+export async function* responseIterator(response: Response): AsyncGenerator<string> {
     const reader = response.body?.getReader();
     if (!reader) {
         throw new Error('Response body is null');
