@@ -1,4 +1,3 @@
-// app/page.tsx
 import { redirect } from "next/navigation";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Popover, PopoverContent } from "@/components/ui/popover";
 import { ThumbsFeedbackType, ThumbState } from "@/types/ThumbsFeedbackType";
 import ThumbStateView from "./ThumbStateView";
 import Reason from "./Reason";
@@ -21,13 +21,14 @@ export default function ThumbsFeedback({ reasons, onSubmit: onFeedbackSubmitted 
         const newFeedback = { ...feedback, thumbState };
         setFeedback(newFeedback);
 
+        // Submit feedback if thumbs up
+        if (thumbState === 'thumbsUp') {
+            onFeedbackSubmitted({ ...newFeedback, reason: '' });
+        }
+        
         // Ask for an optional reason if thumbs down
         if (thumbState === 'thumbsDown') {
             setIsReasonOpen(true);
-        }
-
-        if (thumbState === 'thumbsUp') {
-            onFeedbackSubmitted({ ...newFeedback, reason: '' });
         }
     }
 
