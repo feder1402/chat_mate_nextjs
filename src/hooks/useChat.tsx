@@ -1,8 +1,8 @@
-import { ChatMessage } from "@/types/ChatTypes"
+import { ChatMessageType } from "@/types/ChatTypes"
 import { useState } from "react"
 
 const useChat = () => {
-    const [messages, setMessages] = useState<ChatMessage[]>([])
+    const [messages, setMessages] = useState<ChatMessageType[]>([])
     const [error, setError] = useState('')
     const [isThinking, setIsThinking] = useState(false)
     const [runId, setRunId] = useState<string | null | undefined>(undefined)
@@ -11,8 +11,8 @@ const useChat = () => {
         if (!query || query.trim() === '') {
             return
         }
-        const userMessage: ChatMessage = { role: 'user', content: query }
-        const systemResponse : ChatMessage = { role: 'bot', content: '' }
+        const userMessage: ChatMessageType = { role: 'user', content: query }
+        const systemResponse : ChatMessageType = { role: 'bot', content: '' }
         const newMessages = [...messages, userMessage, systemResponse]
         setError('')
         setMessages(newMessages)

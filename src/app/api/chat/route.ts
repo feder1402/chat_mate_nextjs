@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ChatMessage } from "@/types/ChatTypes";
+import { ChatMessageType } from "@/types/ChatTypes";
 
 import {getKindeServerSession} from "@kinde-oss/kinde-auth-nextjs/server";
 
@@ -8,7 +8,7 @@ import { StringOutputParser } from "@langchain/core/output_parsers";
 import { promptTemplate } from "./PromptTemplate";
 import { retrieveDocuments } from "./VectorStore";
 
-const formatMessage = (message: ChatMessage) => {
+const formatMessage = (message: ChatMessageType) => {
   let prefix;
   if (message.role === "user") {
     prefix = "Human:";

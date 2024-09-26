@@ -1,10 +1,10 @@
-export type ChatMessage = {
+export type ChatMessageType = {
   role: "user" | "bot" | "system";
   content: string;
 };
 
-export type ChatState = {
-  messages: ChatMessage[];
+export type ChatStateType = {
+  messages: ChatMessageType[];
   error?: string;
   isLoading?: boolean;
 };

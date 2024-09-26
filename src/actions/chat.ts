@@ -5,7 +5,7 @@ import { ConversationChain } from "langchain/chains";
 import { BufferMemory } from "langchain/memory";
 import { retrieveDocuments } from "./VectorStore";
 import { getPrompt } from "./PromptTemplate";
-import { ChatState } from "@/types/ChatTypes";
+import { ChatStateType } from "@/types/ChatTypes";
 
 if (!process.env.OPENAI_API_KEY) {
   console.log("Missing OpenAI API Key");
@@ -22,9 +22,9 @@ const memory = new BufferMemory()
 const chain = new ConversationChain({ llm, memory });
 
 export async function chatAction(
-  state: ChatState,
+  state: ChatStateType,
   message: string
-): Promise<ChatState> {
+): Promise<ChatStateType> {
   if (!message) {
     return { ...state, error: "Message is required" };
   }
