@@ -4,6 +4,7 @@ import { ChatStateType } from '@/types/ChatTypes'
 import ChatMessage from './ChatMessage'
 import BotResponseFeedback from './BotResponseFedback'
 import { ThumbsFeedbackType } from '@/types/ThumbsFeedbackType';
+import CopyToClipboard from '../CopyToClipboard';
 
 type ChatMessagesProps = Partial<ChatStateType> & {
     onFeedback: (value: ThumbsFeedbackType) => void;
@@ -13,6 +14,7 @@ export default function ChatMessages({ messages, error, isLoading, onFeedback }:
 
     const ref = useRef<HTMLDivElement>(null);
 
+    // Scroll to the bottom of the chat messages
     useEffect(() => {
         if (ref.current) {
             ref.current.scrollTop = ref.current.scrollHeight;
@@ -31,12 +33,15 @@ export default function ChatMessages({ messages, error, isLoading, onFeedback }:
                 <div className="text-red-500 mb-2" role="alert">Error: {error}</div>
             )}
             {isLoading && (
-                <span className="flex text-blue-500 mb-2">
-                    <Loader /> Thinking...
+                <span className="flex items-center text-slate-600 mb-2 text-sm font-light">
+                    <Loader size={14}/> Thinking...
                 </span>
             )}
             {messages && messages.length > 0 && !error && !isLoading && (
-                <BotResponseFeedback onSubmit={onFeedback} />
+                <div className='flex items-center' >
+                    <CopyToClipboard text={messages[messages.length - 1].content} />
+                    <BotResponseFeedback onSubmit={onFeedback} />
+                </div>
             )}
         </div>
     )
