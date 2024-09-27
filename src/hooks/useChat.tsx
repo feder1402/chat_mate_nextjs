@@ -12,44 +12,54 @@ const useChat = () => {
             return
         }
         const userMessage: ChatMessageType = { role: 'user', content: query }
-        const systemResponse : ChatMessageType = { role: 'bot', content: '' }
+        const systemResponse: ChatMessageType = { role: 'bot', content: '' }
         const newMessages = [...messages, userMessage, systemResponse]
         setError('')
         setMessages(newMessages)
         setIsThinking(true)
         try {
+            // Call chat API
             const response = await callChatApi(userMessage)
+
+            // Get runId from response headers (used to associate user feedback with the correct run)
             const runId = response.headers.get('x-langsmith-run-id');
-            console.log('Run ID:', runId)
-            setRunId(runId)  
-            const chunk = await responseIterator(response)
+            setRunId(runId)
+
+            // Read response body as a stream
             let content = ''
-            for await (const value of chunk) {
-                try {
-                    content += value;
-                    newMessages[newMessages.length - 1].content = content
-                    setMessages([...newMessages])
-                        }
-                catch (e) {
-                    if (e instanceof Error) {
-                        setError(e.message)
-                    } else {
-                        setError('Unknown error occurred while processing the response')
-                    }
+            const reader = response.body?.getReader();
+
+            if (!reader) {
+                throw new Error('Failed to read response body')
+            }
+
+            const decoder = new TextDecoder('utf-8');
+            let done = false;
+            while (!done) {
+                const { value, done: readerDone } = await reader.read();
+                done = readerDone;
+                if (value) {
+                    const chunk = decoder.decode(value, { stream: true });
+                    content += chunk;
+
+                    // Add partial response to the last message
+                    newMessages[newMessages.length - 1].content = content;
+                    setMessages([...newMessages]);
                 }
             }
-        } catch (error) {
-            if (error instanceof Error) {
-                setError(error.message)
+        } catch (e) {
+            if (e instanceof Error) {
+                setError(e.message)
             } else {
-                setError('Unknown error occurred while preparing to send ')
+                setError('Unknown error occurred while processing the response')
             }
-        } finally {
+        }
+        finally {
             setIsThinking(false)
         }
     }
 
-    return {messages, onSubmit, error, isThinking, runId}
+    return { messages, onSubmit, error, isThinking, runId }
 }
 
 const callChatApi = (userMessage: ChatMessageType) => {
@@ -60,31 +70,6 @@ const callChatApi = (userMessage: ChatMessageType) => {
         },
         body: JSON.stringify({ messages: [userMessage] })
     })
-}
-
-async function* responseIterator(response: Response): AsyncGenerator<string> {
-    const reader = response.body?.getReader();
-    if (!reader) {
-        throw new Error('Response body is null');
-    }
-    const decoder = new TextDecoder('utf-8');
-
-    for (; ;) {
-        const { done, value } = await reader.read()
-        if (done) break;
-
-        try {
-            yield decoder.decode(value)
-        }
-        catch (e) {
-            if (e instanceof Error) {
-                console.warn(e.message)
-            } else {
-                console.warn('An unknown error occurred using streaming fetch')
-            }
-        }
-
-    }
 }
 
 export default useChat

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ChatMessageType } from "@/types/ChatTypes";
 
-import {getKindeServerSession} from "@kinde-oss/kinde-auth-nextjs/server";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 import { ChatOpenAI } from "@langchain/openai";
 import { StringOutputParser } from "@langchain/core/output_parsers";
@@ -24,15 +24,18 @@ export async function POST(req: NextRequest) {
     const messages = body.messages ?? [];
     const history = messages.slice(0, -1).map(formatMessage);
     const query = messages[messages.length - 1].content;
-    const {isAuthenticated, getUser} = getKindeServerSession();
-    
-    if (!await isAuthenticated()) {
-        return NextResponse.json({ error: 'Missing authentication' }, { status: 401 });
+    const { isAuthenticated, getUser } = getKindeServerSession();
+
+    if (!(await isAuthenticated())) {
+      return NextResponse.json(
+        { error: "Missing authentication" },
+        { status: 401 }
+      );
     }
 
-      const user = await getUser();
+    const user = await getUser();
 
-      if (!process.env.OPENAI_API_KEY) {
+    if (!process.env.OPENAI_API_KEY) {
       console.log("Missing OpenAI API Key");
       throw new Error("Missing OpenAI API Key");
     }
@@ -64,7 +67,7 @@ export async function POST(req: NextRequest) {
             {
               handleChainStart(_llm, _prompts, runId) {
                 if (!chainRunId) {
-                    chainRunId = runId;
+                  chainRunId = runId;
                 }
                 resolve(chainStream);
               },
@@ -72,7 +75,7 @@ export async function POST(req: NextRequest) {
           ],
           metadata: {
             user: user.email,
-          }
+          },
         }
       );
     });
