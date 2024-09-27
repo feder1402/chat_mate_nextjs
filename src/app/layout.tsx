@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className={`${inter.className} h-dvh max-h-dvh bg-gradient-to-r from-purple-100`}>
         {children}
         <Analytics />
-        </body>
+      </body>
     </html>
   );
 }
