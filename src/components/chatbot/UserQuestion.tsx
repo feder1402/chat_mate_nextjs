@@ -18,8 +18,8 @@ export default function UserQuestion({ onSubmit, isLoading }: UserQuestionProps)
                 e.preventDefault()
                 if (ref.current) {
                     const formData = new FormData(ref.current)
-                    ref.current.reset()
                     const message = formData.get('message') as string
+                    ref.current.reset()
                     onSubmit(message)
                 }
             }}

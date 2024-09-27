@@ -18,13 +18,7 @@ const useChat = () => {
         setMessages(newMessages)
         setIsThinking(true)
         try {
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ messages: [userMessage] })
-            })
+            const response = await callChatApi(userMessage)
             const runId = response.headers.get('x-langsmith-run-id');
             console.log('Run ID:', runId)
             setRunId(runId)  
@@ -58,7 +52,17 @@ const useChat = () => {
     return {messages, onSubmit, error, isThinking, runId}
 }
 
-export async function* responseIterator(response: Response): AsyncGenerator<string> {
+const callChatApi = (userMessage: ChatMessageType) => {
+    return fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ messages: [userMessage] })
+    })
+}
+
+async function* responseIterator(response: Response): AsyncGenerator<string> {
     const reader = response.body?.getReader();
     if (!reader) {
         throw new Error('Response body is null');
