@@ -8,7 +8,7 @@ import { StringOutputParser } from "@langchain/core/output_parsers";
 import { promptTemplate } from "./PromptTemplate";
 import { retrieveDocuments } from "./VectorStore";
 
-export const runtime = "edge";
+//export const runtime = "edge";
 
 const formatMessage = (message: ChatMessageType) => {
   let prefix;
