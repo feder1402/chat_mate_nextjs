@@ -38,11 +38,29 @@ export default function ChatMessages({ messages, error, isLoading, onFeedback }:
                 </span>
             )}
             {messages && messages.length > 0 && !error && !isLoading && (
+                <div>
                 <div className='flex items-center' >
                     <CopyToClipboard text={messages[messages.length - 1].content} />
                     <BotResponseFeedback onSubmit={onFeedback} />
                 </div>
+                    {/* {getRelatedQuestions(messages[messages.length - 1].content)
+                    .map((question, index) => (
+                        <div key={index} className="text-sm text-slate-400">{question}</div>
+                    ))} */}
+                </div>
             )}
         </div>
     )
+}
+
+const extractRelatedQuestions = (content: string) => {
+    const matches = content.match(/<related_questions>([\s\S]*?)<\/related_questions>/);
+    if (!matches) {
+        return [];
+    }
+    const message = content?.substring(0, matches.index);
+    //const questions = matches[1].split('\n').map((q) => q.trim()).filter((q) => q.length > 0);
+//    const questions = matches[1].match(/<question>([\s\S]*?)<\/question>/);
+    const related = matches?.[1]?.match(/<question>([\s\S]*?)<\/question>/g)?.map(item => item?.match(/<question>([\s\S]*?)<\/question>/)?.[1]) || [];
+    return [message, related];
 }
