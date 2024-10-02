@@ -15,6 +15,8 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         purpleGhost: "text-purple-400 hover:bg-gray-100 hover:shadow-md hover:text-purple-800",
+        blueGhost: "text-blue-500 hover:bg-gray-100 hover:shadow-md hover:text-purple-800",
+        blackGhost: "text-black-400 hover:bg-gray-100 hover:shadow-md hover:text-purple-800",
         link: "text-primary underline-offset-4 hover:underline",
         ringHover: "ring-2 transition-all duration-300 hover:bg-primary/20 hover:ring-2 hover:ring-primary/90 hover:ring-offset-2",
         linkHover1: "relative after:absolute after:bg-primary after:bottom-2 after:h-[1px] after:w-2/3 after:origin-bottom-left after:scale-x-100 hover:after:origin-bottom-right hover:after:scale-x-0 after:transition-transform after:ease-in-out after:duration-300",

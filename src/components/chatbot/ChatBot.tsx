@@ -27,10 +27,10 @@ export default function ChatBot() {
   }
 
   return (
-    <div className="container flex flex-col h-full overscroll-none overflow-auto max-h-full mx-auto p-4">
+    <div className="container flex gap-2 flex-col h-full overscroll-none overflow-auto max-h-full mx-auto p-4">
       <ChatMessages messages={messages} error={error} isLoading={isThinking} onFeedback={onFeedback} />
-      <RelatedQuestions relatedQuestions={relatedQuestions} onSubmit={onSubmit} />
       <UserQuestion onSubmit={onSubmit} isLoading={isThinking} />
+      <RelatedQuestions relatedQuestions={relatedQuestions} onSubmit={onSubmit} />
     </div>
   )
 }

@@ -8,6 +8,8 @@ You will be provided with a context, consisting of a couple of articles (delimit
 about the same topic. First, find the answer to the user question in the context. 
 Then, craft a response based on the answer you found.
 
+Ask the user a question based on the answer you provided.
+
 Given the conversation history, the context and your response, propose 3 related questions the user might ask as a follow up of your response. Make sure the 3 questions you give me can be answered from the information in the context. 
 Your your 3 related questions should be wrapped in three sticks which follows the following format:
 
