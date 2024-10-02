@@ -6,10 +6,11 @@ import ChatMessages from './ChatMessages';
 import useChat from '@/hooks/useChat';
 import { ThumbsFeedbackType } from '@/types/ThumbsFeedbackType';
 import { sendFeedback } from '@/components/thumbs_feedback/SendFeedback';
+import RelatedQuestions from './RelatedQuestions';
 
 export default function ChatBot() {
 
-  const { messages, onSubmit, error, isThinking, runId } = useChat()
+  const { messages, onSubmit, error, isThinking, runId, extraContent } = useChat()
 
   const onFeedback = async (thumbFeedback: ThumbsFeedbackType) => {
     if (!runId) {
@@ -20,10 +21,27 @@ export default function ChatBot() {
     await sendFeedback(runId, 'userfeedback', { value: thumbState, comment: reason })
   }
 
+  let relatedQuestions: string[] = [];
+  if (!isThinking && extraContent) {
+        relatedQuestions = extractRelatedQuestions(extraContent);
+  }
+
   return (
     <div className="container flex flex-col h-full overscroll-none overflow-auto max-h-full mx-auto p-4">
-      <ChatMessages messages={messages} error={error} isLoading={isThinking} onFeedback={onFeedback}/>
+      <ChatMessages messages={messages} error={error} isLoading={isThinking} onFeedback={onFeedback} />
+      <RelatedQuestions relatedQuestions={relatedQuestions} onSubmit={onSubmit} />
       <UserQuestion onSubmit={onSubmit} isLoading={isThinking} />
     </div>
   )
+}
+
+const extractRelatedQuestions = (content: string): string[] => {
+  const matches = content.match(/<related_questions>([\s\S]*?)<\/related_questions>/);
+  if (!matches) {
+      return [];
+  }
+  const related = matches?.[1]
+      ?.match(/<question>([\s\S]*?)<\/question>/g)
+      ?.map(item => item?.match(/<question>([\s\S]*?)<\/question>/)?.[1]).filter(item => item != undefined) ?? [];
+  return related;
 }

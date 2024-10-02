@@ -1,11 +1,14 @@
 import { ChatMessageType } from "@/types/ChatTypes"
 import { useState } from "react"
 
+const EXTRA_CONTENT_TAG = '<extra_content>'
+
 const useChat = () => {
     const [messages, setMessages] = useState<ChatMessageType[]>([])
     const [error, setError] = useState('')
     const [isThinking, setIsThinking] = useState(false)
     const [runId, setRunId] = useState<string | null | undefined>(undefined)
+    const [extraContent, setExtraContent] = useState<string>('');
 
     const onSubmit = async (query: string) => {
         if (!query || query.trim() === '') {
@@ -43,7 +46,15 @@ const useChat = () => {
                     content += chunk;
 
                     // Add partial response to the last message
-                    newMessages[newMessages.length - 1].content = content;
+                    const content_ndx = content.indexOf(EXTRA_CONTENT_TAG);
+                    if (content_ndx > -1) {
+                        newMessages[newMessages.length - 1].content = content.substring(0, content_ndx)
+                        setExtraContent(content.substring(content_ndx))
+                    } else {
+                        newMessages[newMessages.length - 1].content = content
+                        setExtraContent('')
+                    }
+                    
                     setMessages([...newMessages]);
                 }
             }
@@ -59,7 +70,7 @@ const useChat = () => {
         }
     }
 
-    return { messages, onSubmit, error, isThinking, runId }
+    return { messages, onSubmit, error, isThinking, runId, extraContent }
 }
 
 const callChatApi = (userMessage: ChatMessageType) => {

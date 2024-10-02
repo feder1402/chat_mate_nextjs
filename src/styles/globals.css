@@ -131,6 +131,11 @@ body {
   }
 }
 
+a {
+  color: blue;
+  text-decoration: none;
+}
+
 .text-display-2 {
   font-size: var(--g-font-size-3x-large);
   font-weight: var(--g-font-weight-black);

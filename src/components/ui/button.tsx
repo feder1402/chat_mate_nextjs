@@ -14,11 +14,11 @@ const buttonVariants = cva(
         outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
+        purpleGhost: "text-purple-400 hover:bg-gray-100 hover:shadow-md hover:text-purple-800",
         link: "text-primary underline-offset-4 hover:underline",
         ringHover: "ring-2 transition-all duration-300 hover:bg-primary/20 hover:ring-2 hover:ring-primary/90 hover:ring-offset-2",
         linkHover1: "relative after:absolute after:bg-primary after:bottom-2 after:h-[1px] after:w-2/3 after:origin-bottom-left after:scale-x-100 hover:after:origin-bottom-right hover:after:scale-x-0 after:transition-transform after:ease-in-out after:duration-300",
         linkHover2: "relative after:absolute after:bg-primary after:bottom-2 after:h-[1px] after:w-2/3 after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300",
-
       },
       size: {
         default: "h-9 px-4 py-2",
