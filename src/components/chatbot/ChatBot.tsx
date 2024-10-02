@@ -8,6 +8,12 @@ import { ThumbsFeedbackType } from '@/types/ThumbsFeedbackType';
 import { sendFeedback } from '@/components/thumbs_feedback/SendFeedback';
 import RelatedQuestions from './RelatedQuestions';
 
+const DEFAULT_RELATED_QUESTIONS = [
+  "I'm a new associate. What should I do to be successful?",
+  "I have a meeting with a potential client. What should I do?",
+  "How can I help potential members understand the value of LegalShield services?"
+]
+
 export default function ChatBot() {
 
   const { messages, onSubmit, error, isThinking, runId, extraContent } = useChat()
@@ -23,7 +29,11 @@ export default function ChatBot() {
 
   let relatedQuestions: string[] = [];
   if (!isThinking && extraContent) {
-        relatedQuestions = extractRelatedQuestions(extraContent);
+    relatedQuestions = extractRelatedQuestions(extraContent);
+  }
+
+  if (relatedQuestions.length == 0) {
+    relatedQuestions = DEFAULT_RELATED_QUESTIONS;
   }
 
   return (
@@ -38,10 +48,10 @@ export default function ChatBot() {
 const extractRelatedQuestions = (content: string): string[] => {
   const matches = content.match(/<related_questions>([\s\S]*?)<\/related_questions>/);
   if (!matches) {
-      return [];
+    return [];
   }
   const related = matches?.[1]
-      ?.match(/<question>([\s\S]*?)<\/question>/g)
-      ?.map(item => item?.match(/<question>([\s\S]*?)<\/question>/)?.[1]).filter(item => item != undefined) ?? [];
+    ?.match(/<question>([\s\S]*?)<\/question>/g)
+    ?.map(item => item?.match(/<question>([\s\S]*?)<\/question>/)?.[1]).filter(item => item != undefined) ?? [];
   return related;
 }

@@ -22,7 +22,8 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const messages = body.messages ?? [];
-    const history = messages.slice(0, -1).map(formatMessage);
+    // Get the last 2 messages, not counting the last with the user question, as history
+    const history = messages.slice(-3, -1).map(formatMessage);
     const query = messages[messages.length - 1].content;
     const { isAuthenticated, getUser } = getKindeServerSession();
 
@@ -43,7 +44,7 @@ export async function POST(req: NextRequest) {
     const model = new ChatOpenAI({
       model: "gpt-4o-mini",
       openAIApiKey: process.env.OPENAI_API_KEY,
-      temperature: 0.0,
+//      temperature: 0.0,
     });
 
     const outputParser = new StringOutputParser();

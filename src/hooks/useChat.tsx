@@ -15,14 +15,14 @@ const useChat = () => {
             return
         }
         const userMessage: ChatMessageType = { role: 'user', content: query }
-        const systemResponse: ChatMessageType = { role: 'bot', content: '' }
-        const newMessages = [...messages, userMessage, systemResponse]
+        const assistantResponse: ChatMessageType = { role: 'bot', content: '' }
+        const newMessages = [...messages, userMessage, assistantResponse]
         setError('')
         setMessages(newMessages)
         setIsThinking(true)
         try {
             // Call chat API
-            const response = await callChatApi(userMessage)
+            const response = await callChatApi(newMessages.slice(0, -1)) // Do not send the response message    
 
             // Get runId from response headers (used to associate user feedback with the correct run)
             const runId = response.headers.get('x-langsmith-run-id');
@@ -73,13 +73,13 @@ const useChat = () => {
     return { messages, onSubmit, error, isThinking, runId, extraContent }
 }
 
-const callChatApi = (userMessage: ChatMessageType) => {
+const callChatApi = (messages: ChatMessageType[]) => {
     return fetch('/api/chat', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ messages: [userMessage] })
+        body: JSON.stringify({ messages })
     })
 }
 

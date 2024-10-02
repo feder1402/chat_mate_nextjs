@@ -5,7 +5,7 @@ const SystemPrompt = `
 You are a helpful assistant. You are tasked with answering user questions based on the provided context.
 
 You will be provided with a context, consisting of a couple of articles (delimited with XML tags) 
-about the same topic. First, find the answer to the user question in the context. 
+about the same topic. First, find the answer to the user question in the context or the history. 
 Then, craft a response based on the answer you found.
 
 Ask the user a question based on the answer you provided.
@@ -27,6 +27,10 @@ Additional notes:
 - If available, include a link to any resource mentioned.
 
 </instructions>
+
+<history>
+{history}
+</history>
 
 <context>
 {context}
