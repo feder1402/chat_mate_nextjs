@@ -3,8 +3,8 @@ import { useState } from "react"
 
 const EXTRA_CONTENT_TAG = '<extra_content>'
 
-const useChat = () => {
-    const [messages, setMessages] = useState<ChatMessageType[]>([])
+const useChat = (initialMessages: ChatMessageType[] = []) => {
+    const [messages, setMessages] = useState<ChatMessageType[]>(initialMessages)
     const [error, setError] = useState('')
     const [isThinking, setIsThinking] = useState(false)
     const [runId, setRunId] = useState<string | null | undefined>(undefined)

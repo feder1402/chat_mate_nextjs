@@ -40,7 +40,7 @@ export default function ChatMessages({ messages, error, isLoading, onFeedback }:
             {messages && messages.length > 0 && !error && !isLoading && messages[messages.length - 1].role === 'bot' && (
                 <div className='flex items-center' >
                     <CopyToClipboard text={messages[messages.length - 1].content} />
-                    <BotResponseFeedback onSubmit={onFeedback} />
+                    {messages.length > 1 && <BotResponseFeedback onSubmit={onFeedback} />}
                 </div>
             )}
         </div>

@@ -2,6 +2,7 @@
 
 import UserQuestion from './UserQuestion'
 import ChatMessages from './ChatMessages';
+import initialMessages from './InitialMessages';
 
 import useChat from '@/hooks/useChat';
 import { ThumbsFeedbackType } from '@/types/ThumbsFeedbackType';
@@ -16,7 +17,7 @@ const DEFAULT_RELATED_QUESTIONS = [
 
 export default function ChatBot() {
 
-  const { messages, onSubmit, error, isThinking, runId, extraContent } = useChat()
+  const { messages, onSubmit, error, isThinking, runId, extraContent } = useChat(initialMessages)
 
   const onFeedback = async (thumbFeedback: ThumbsFeedbackType) => {
     if (!runId) {
