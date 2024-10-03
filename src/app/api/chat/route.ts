@@ -20,11 +20,13 @@ const formatMessage = (message: ChatMessageType) => {
 
 export async function POST(req: NextRequest) {
   try {
+    console.log("Chat API called");
     const body = await req.json();
     const messages = body.messages ?? [];
     // Get the last 2 messages, not counting the last with the user question, as history
     const history = messages.slice(-3, -1).map(formatMessage);
     const query = messages[messages.length - 1].content;
+    console.log("Query:", query);
     const { isAuthenticated, getUser } = getKindeServerSession();
 
     if (!(await isAuthenticated())) {
@@ -36,6 +38,7 @@ export async function POST(req: NextRequest) {
 
     const user = await getUser();
 
+    console.log("user auth");
     if (!process.env.OPENAI_API_KEY) {
       console.log("Missing OpenAI API Key");
       throw new Error("Missing OpenAI API Key");
@@ -50,11 +53,14 @@ export async function POST(req: NextRequest) {
     const outputParser = new StringOutputParser();
 
     const chain = promptTemplate.pipe(model).pipe(outputParser);
+    console.log("chain created");
 
     const documents = await retrieveDocuments(query);
     const context = documents
       .map((doc) => `<article>\n\n${doc.pageContent}\n\n</article>`)
       .join("\n");
+
+    console.log("Got context");
 
     /**
      * Wait for a run id to be generated.
@@ -80,14 +86,14 @@ export async function POST(req: NextRequest) {
         }
       );
     });
-
+    console.log("Got stream for runId ", chainRunId);
     return new NextResponse(stream, {
       headers: {
         "x-langsmith-run-id": chainRunId,
       },
     });
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return NextResponse.json({ e }, { status: 500 });
   }
 }
