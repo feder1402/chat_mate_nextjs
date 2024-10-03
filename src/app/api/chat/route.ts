@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
     /**
      * Wait for a run id to be generated.
      */
-    let chainRunId: string = "";
+    const chainRunId: string = "";
 //    const stream: ReadableStream = await new Promise((resolve) => {
       const chainStream = await chain.stream(
         { query, history, context },
