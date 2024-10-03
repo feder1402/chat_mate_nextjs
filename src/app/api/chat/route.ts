@@ -66,28 +66,28 @@ export async function POST(req: NextRequest) {
      * Wait for a run id to be generated.
      */
     let chainRunId: string = "";
-    const stream: ReadableStream = await new Promise((resolve) => {
-      const chainStream = chain.stream(
+//    const stream: ReadableStream = await new Promise((resolve) => {
+      const chainStream = await chain.stream(
         { query, history, context },
         {
-          callbacks: [
-            {
-              handleChainStart(_llm, _prompts, runId) {
-                if (!chainRunId) {
-                  chainRunId = runId;
-                }
-                resolve(chainStream);
-              },
-            },
-          ],
+          // callbacks: [
+          //   {
+          //     handleChainStart(_llm, _prompts, runId) {
+          //       if (!chainRunId) {
+          //         chainRunId = runId;
+          //       }
+          //       resolve(chainStream);
+          //     },
+          //   },
+          // ],
           metadata: {
             user: user.email,
           },
         }
       );
-    });
+//    });
     console.log("Got stream for runId ", chainRunId);
-    return new NextResponse(stream, {
+    return new NextResponse(chainStream, {
       headers: {
         "x-langsmith-run-id": chainRunId,
       },
