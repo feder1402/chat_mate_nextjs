@@ -28,7 +28,6 @@ const useChat = () => {
                 throw new Error(`Failed to process the request: ${response.statusText}`)
             }
 
-            console.log('Got response', response)
             // Get runId from response headers (used to associate user feedback with the correct run)
             const runId = response.headers.get('x-langsmith-run-id');
             setRunId(runId)
@@ -48,7 +47,6 @@ const useChat = () => {
                 done = readerDone;
                 if (value) {
                     const chunk = decoder.decode(value, { stream: true });
-                    console.log('Chunk:', chunk)
                     content += chunk;
 
                     // Add partial response to the last message

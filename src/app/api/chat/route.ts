@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { v4 as uuidv4 } from "uuid";
+
 import { ChatMessageType } from "@/types/ChatTypes";
 
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
@@ -20,13 +22,11 @@ const formatMessage = (message: ChatMessageType) => {
 
 export async function POST(req: NextRequest) {
   try {
-    console.log("Chat API called");
     const body = await req.json();
     const messages = body.messages ?? [];
     // Get the last 2 messages, not counting the last with the user question, as history
     const history = messages.slice(-3, -1).map(formatMessage);
     const query = messages[messages.length - 1].content;
-    console.log("Query:", query);
     const { isAuthenticated, getUser } = getKindeServerSession();
 
     if (!(await isAuthenticated())) {
@@ -38,7 +38,6 @@ export async function POST(req: NextRequest) {
 
     const user = await getUser();
 
-    console.log("user auth");
     if (!process.env.OPENAI_API_KEY) {
       console.log("Missing OpenAI API Key");
       throw new Error("Missing OpenAI API Key");
@@ -47,46 +46,30 @@ export async function POST(req: NextRequest) {
     const model = new ChatOpenAI({
       model: "gpt-4o-mini",
       openAIApiKey: process.env.OPENAI_API_KEY,
-//      temperature: 0.0,
+      //      temperature: 0.0,
     });
 
     const outputParser = new StringOutputParser();
 
     const chain = promptTemplate.pipe(model).pipe(outputParser);
-    console.log("chain created");
 
     const documents = await retrieveDocuments(query);
     const context = documents
       .map((doc) => `<article>\n\n${doc.pageContent}\n\n</article>`)
       .join("\n");
 
-    console.log("Got context");
+    const chainRunId = uuidv4();
 
-    /**
-     * Wait for a run id to be generated.
-     */
-    const chainRunId: string = "";
-//    const stream: ReadableStream = await new Promise((resolve) => {
-      const chainStream = await chain.stream(
-        { query, history, context },
-        {
-          // callbacks: [
-          //   {
-          //     handleChainStart(_llm, _prompts, runId) {
-          //       if (!chainRunId) {
-          //         chainRunId = runId;
-          //       }
-          //       resolve(chainStream);
-          //     },
-          //   },
-          // ],
-          metadata: {
-            user: user.email,
-          },
-        }
-      );
-//    });
-    console.log("Got stream for runId ", chainRunId);
+    const chainStream = await chain.stream(
+      { query, history, context },
+      {
+        runId: chainRunId,
+        metadata: {
+          user: user.email,
+        },
+      }
+    );
+
     return new NextResponse(chainStream, {
       headers: {
         "x-langsmith-run-id": chainRunId,
