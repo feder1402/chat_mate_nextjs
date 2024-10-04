@@ -16,6 +16,7 @@ export default function RelatedQuestions(props: { relatedQuestions: string[], on
 
 const LightbulbWithTooltip = () => {
     return (
+        <div className='flex items-center'>
         <TooltipProvider delayDuration={300}>
             <Tooltip>
                 <TooltipTrigger>
@@ -24,5 +25,7 @@ const LightbulbWithTooltip = () => {
                 <TooltipContent side="bottom" className="bg-black text-white">Related questions</TooltipContent>
             </Tooltip>
         </TooltipProvider>
+        :
+        </div>
     )
 }

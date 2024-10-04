@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <div className="container flex flex-col h-full max-h-full mx-auto p-4">
       <nav className="nav container">
-        <h1 className="text-2xl font-bold mb-4">🧉 ChatMate</h1>
+        <h1 className="text-2xl font-bold">🧉 ChatMate</h1>
         <UserProfile user={user} />
       </nav>
       <ChatBot />
