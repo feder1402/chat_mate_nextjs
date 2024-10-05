@@ -10,33 +10,18 @@ import { StringOutputParser } from "@langchain/core/output_parsers";
 import { promptTemplate } from "./PromptTemplate";
 import { retrieveDocuments } from "./VectorStore";
 
-const formatMessage = (message: ChatMessageType) => {
-  let prefix;
-  if (message.role === "user") {
-    prefix = "Human:";
-  } else {
-    prefix = "Assistant:";
-  }
-  return `${prefix} ${message.content}`;
-};
-
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const messages = body.messages ?? [];
-    // Get the last 2 messages, not counting the last with the user question, as history
-    const history = messages.slice(-3, -1).map(formatMessage);
-    const query = messages[messages.length - 1].content;
-    const { isAuthenticated, getUser } = getKindeServerSession();
+    const { history, query, metadata } = await extractChatInfo(req)
 
-    if (!(await isAuthenticated())) {
+    const user = await getAuthUser()
+
+    if (!user) {
       return NextResponse.json(
         { error: "Missing authentication" },
         { status: 401 }
-      );
+      );  
     }
-
-    const user = await getUser();
 
     if (!process.env.OPENAI_API_KEY) {
       console.log("Missing OpenAI API Key");
@@ -45,8 +30,7 @@ export async function POST(req: NextRequest) {
 
     const model = new ChatOpenAI({
       model: "gpt-4o-mini",
-      openAIApiKey: process.env.OPENAI_API_KEY,
-      //      temperature: 0.0,
+      openAIApiKey: process.env.OPENAI_API_KEY
     });
 
     const outputParser = new StringOutputParser();
@@ -66,6 +50,7 @@ export async function POST(req: NextRequest) {
         runId: chainRunId,
         metadata: {
           user: user.email,
+          ...metadata,
         },
       }
     );
@@ -79,4 +64,36 @@ export async function POST(req: NextRequest) {
     console.error(e);
     return NextResponse.json({ e }, { status: 500 });
   }
+}
+
+const extractChatInfo = async (req: NextRequest) => {
+  const body = await req.json();
+  const messages = body.messages ?? [];
+
+  // Get the last 2 messages, not counting the last with the user question, as history
+  const history = messages.slice(-3, -1).map(formatMessage);
+  const query = messages[messages.length - 1].content;
+  const metadata = body.metadata ?? {};
+
+  return { history, query, metadata }
+}
+
+const formatMessage = (message: ChatMessageType) => {
+  let prefix;
+  if (message.role === "user") {
+    prefix = "Human:";
+  } else {
+    prefix = "Assistant:";
+  }
+  return `${prefix} ${message.content}`;
+};
+
+const getAuthUser = async () => {
+  const { isAuthenticated, getUser } = getKindeServerSession();
+
+  if (!(await isAuthenticated())) {
+    return null;
+  }
+
+  return getUser();
 }

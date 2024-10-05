@@ -1,7 +1,9 @@
-import { ChatMessageType } from "@/types/ChatTypes"
 import { useState } from "react"
+import { v4 as uuidv4 } from "uuid";
+import { ChatMessageType } from "@/types/ChatTypes"
 
 const EXTRA_CONTENT_TAG = '<extra_content>'
+const SESSION_ID = uuidv4()
 
 const useChat = (initialMessages: ChatMessageType[] = []) => {
     const [messages, setMessages] = useState<ChatMessageType[]>(initialMessages)
@@ -84,7 +86,7 @@ const callChatApi = (messages: ChatMessageType[]) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ messages })
+        body: JSON.stringify({ messages, metadata: {session_id: SESSION_ID }})
     })
 }
 
