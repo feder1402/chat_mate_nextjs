@@ -8,7 +8,7 @@ export default function RelatedQuestions(props: { relatedQuestions: string[], on
             <div className='flex items-center flex-wrap'>
                 <LightbulbWithTooltip />
                 {props.relatedQuestions.map((question, index) => (
-                    <Button key={index} variant="blackGhost" onClick={() => props.onSubmit?.(question)} >{question}</Button>
+                    <Button key={index} variant="whiteGhost" onClick={() => props.onSubmit?.(question)} >{question}</Button>
                 ))}
             </div>
         )
@@ -16,11 +16,11 @@ export default function RelatedQuestions(props: { relatedQuestions: string[], on
 
 const LightbulbWithTooltip = () => {
     return (
-        <div className='flex items-center'>
+        <div className='flex items-center text-white'>
         <TooltipProvider delayDuration={300}>
             <Tooltip>
                 <TooltipTrigger>
-                    <Lightbulb size={14} strokeWidth={3} color='black' fill="yellow" />
+                    <Lightbulb size={14} strokeWidth={3} color='white' fill="yellow" />
                 </TooltipTrigger>
                 <TooltipContent side="bottom" className="bg-black text-white">Related questions</TooltipContent>
             </Tooltip>

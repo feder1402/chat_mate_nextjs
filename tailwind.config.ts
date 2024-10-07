@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-const { blackA, mauve, violet } = require('@radix-ui/colors');
+import { blackA, mauve, violet } from '@radix-ui/colors';
 
 const config: Config = {
   darkMode: ["class"],

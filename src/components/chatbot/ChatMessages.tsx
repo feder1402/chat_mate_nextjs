@@ -24,7 +24,7 @@ export default function ChatMessages({ messages, error, isLoading, onFeedback }:
     return (
         <div
             ref={ref}
-            className="flex-grow p-2 border bg-slate-50 rounded-md shadow-md overscroll-none overflow-auto"
+            className="flex-grow p-2 border  bg-purple-50 rounded-md shadow-md overscroll-none overflow-auto"
         >
             {messages && messages.map((message, index) => (
                 <ChatMessage key={index} message={message} />

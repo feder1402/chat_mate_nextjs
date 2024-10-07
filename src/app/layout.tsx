@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} h-dvh max-h-dvh overflow-hidden bg-gradient-to-r from-purple-300 to-purple-100`}>
+      <body className={`${inter.className} h-dvh max-h-dvh overflow-hidden bg-gradient-to-r from-purple-800 to-purple-400`}>
         {children}
         <Analytics />
       </body>

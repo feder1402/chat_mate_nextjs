@@ -29,7 +29,7 @@ export default function UserQuestion({ onSubmit, isLoading }: UserQuestionProps)
             <Input
                 name="message"
                 placeholder="Type your question here..."
-                className="bg-slate-50 min-h-12 resize-none rounded-lg border focus-within:ring-1 focus-within:ring-ring focus-visible:ring-0"
+                className=" bg-purple-50 text-black min-h-12 resize-none rounded-lg border focus-within:ring-1 focus-within:ring-ring focus-visible:ring-0"
             />
             <Button type="submit" size="lg" disabled={isLoading} className="min-h-12">
                 Send
