@@ -9,7 +9,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
         message.role === 'user'
             ? (
                 <>
-                    <div className="mb-2 mt-4 p-2 rounded-lg shadow-lg  bg-teal-100 text-black float-right max-w-[80%]" >
+                    <div className="mb-2 mt-4 p-2 rounded-lg shadow-lg  bg-blue-200 text-black float-right max-w-[80%]" >
                         <b>{"You: "}</b> {message.content}
                     </div>
                     <div className="clear-right" />
