@@ -14,6 +14,7 @@ export default function UserQuestion({ onSubmit, isLoading }: UserQuestionProps)
     return (
         <form
             ref={ref}
+            autoComplete="off"
             onSubmit={(e) => {
                 e.preventDefault()
                 if (ref.current) {
