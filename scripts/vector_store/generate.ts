@@ -6,10 +6,6 @@ import { TextLoader } from "langchain/document_loaders/fs/text";
 
 dotenv.config();
 
-const embeddings = new OpenAIEmbeddings({
-  model: "text-embedding-3-small",
-});
-
 const loader = new DirectoryLoader("source_knowledge/associates", {
   ".txt": (path) => new TextLoader(path),
   ".md": (path) => new TextLoader(path),

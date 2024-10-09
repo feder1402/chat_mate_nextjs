@@ -9,6 +9,7 @@ import { ChatOpenAI } from "@langchain/openai";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { promptTemplate } from "./PromptTemplate";
 import { retrieveDocuments } from "./VectorStore";
+import SystemMessage from './SystemMessage'
 
 export async function POST(req: NextRequest) {
   try {
@@ -39,13 +40,22 @@ export async function POST(req: NextRequest) {
 
     const documents = await retrieveDocuments(query);
     const context = documents
-      .map((doc) => `<article>\n\n${doc.pageContent}\n\n</article>`)
+      .map((doc) => `
+      <article>
+        <source>
+          ${doc?.metadata?.source}
+        </source>
+        <content>
+          ${doc.pageContent}
+        </content>
+      </article>
+      `)
       .join("\n");
 
     const chainRunId = uuidv4();
 
     const chainStream = await chain.stream(
-      { query, history, context },
+      { query, history: JSON.stringify(history), context },
       {
         runId: chainRunId,
         metadata: {
@@ -70,8 +80,9 @@ const extractChatInfo = async (req: NextRequest) => {
   const body = await req.json();
   const messages = body.messages ?? [];
 
-  // Get the last 2 messages, not counting the last with the user question, as history
-  const history = messages.slice(-3, -1).map(formatMessage);
+  // Get the system prompt, plus the last 2 messages, not counting the last with the user question, as history
+  const history = [SystemMessage, ...messages.slice(-3, -1).map(formatMessage)];
+//  const history = messages.slice(-3, -1).map(formatMessage);
   const query = messages[messages.length - 1].content;
   const metadata = body.metadata ?? {};
 

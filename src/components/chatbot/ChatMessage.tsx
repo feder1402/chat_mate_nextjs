@@ -16,7 +16,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
                 </>
             )
             : (
-                <div className="prose p-2 rounded-lg bg-purple-200 shadow-lg max-w-[80%]" >
+                <div className="prose p-2 ml-2 rounded-lg bg-purple-100 shadow-lg max-w-[80%]" >
                     <b>{'🧉 ChatMate'}:</b>
                     <Markdown remarkPlugins={[remarkGfm]}>{message.content}</Markdown>
                 </div>
