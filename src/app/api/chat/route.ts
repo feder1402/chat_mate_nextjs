@@ -5,11 +5,11 @@ import { ChatMessageType } from "@/types/ChatTypes";
 
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
-import { ChatOpenAI } from "@langchain/openai";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { promptTemplate } from "./PromptTemplate";
 import { retrieveDocuments } from "./VectorStore";
 import GetSystemMessage from './SystemMessage'
+import model from './ModelOpenAI'
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,16 +23,6 @@ export async function POST(req: NextRequest) {
         { status: 401 }
       );  
     }
-
-    if (!process.env.OPENAI_API_KEY) {
-      console.log("Missing OpenAI API Key");
-      throw new Error("Missing OpenAI API Key");
-    }
-
-    const model = new ChatOpenAI({
-      model: "gpt-4o-mini",
-      openAIApiKey: process.env.OPENAI_API_KEY
-    });
 
     const outputParser = new StringOutputParser();
 
@@ -54,7 +44,7 @@ export async function POST(req: NextRequest) {
 
     const chainRunId = uuidv4();
 
-    const systemMessage = await GetSystemMessage(user.given_name!);
+    const systemMessage = await GetSystemMessage(user.given_name ?? "unknown");
 
     const chainStream = await chain.stream(
       { query, history: JSON.stringify([systemMessage, ...history]), context },
@@ -82,21 +72,20 @@ const extractChatInfo = async (req: NextRequest) => {
   const body = await req.json();
   const messages = body.messages ?? [];
 
-  // Get the system prompt, plus the last 2 messages, not counting the last with the user question, as history
-  const history = messages.slice(-3, -1).map(formatMessage);
-//  const history = messages.slice(-3, -1).map(formatMessage);
+  // Get the last 2 messages, not counting the last with the user question, as history
+  const history = messages.slice(-3, -1).map(formatMessageRole);
   const query = messages[messages.length - 1].content;
   const metadata = body.metadata ?? {};
 
   return { history, query, metadata }
 }
 
-const formatMessage = (message: ChatMessageType) => {
+const formatMessageRole = (message: ChatMessageType) => {
   let prefix;
   if (message.role === "user") {
-    prefix = "Human:";
+    prefix = "user:";
   } else {
-    prefix = "Assistant:";
+    prefix = "assistant:";
   }
   return `${prefix} ${message.content}`;
 };
