@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { v4 as uuidv4 } from "uuid";
+import { useSessionStorage } from 'usehooks-ts'
 import { ChatMessageType } from "@/types/ChatTypes"
 
 const EXTRA_CONTENT_TAG = '<extra_content>'
 const SESSION_ID = uuidv4()
 
-const useChat = (initialMessages: ChatMessageType[] = []) => {
-    const [messages, setMessages] = useState<ChatMessageType[]>(initialMessages)
+const useChat = (storagekey: string, initialMessages: ChatMessageType[] = []) => {
+    const [messages, setMessages, deleteHistory] = useSessionStorage<ChatMessageType[]>(storagekey, initialMessages, { initializeWithValue: false })
     const [error, setError] = useState('')
     const [isThinking, setIsThinking] = useState(false)
     const [runId, setRunId] = useState<string | null | undefined>(undefined)
@@ -18,7 +19,7 @@ const useChat = (initialMessages: ChatMessageType[] = []) => {
         }
         const userMessage: ChatMessageType = { role: 'user', content: query }
         const assistantResponse: ChatMessageType = { role: 'bot', content: '' }
-        const newMessages = [...messages, userMessage, assistantResponse]
+        const newMessages = [...messages, userMessage, assistantResponse].splice(-10)
         setError('')
         setMessages(newMessages)
         setIsThinking(true)
@@ -77,7 +78,7 @@ const useChat = (initialMessages: ChatMessageType[] = []) => {
         }
     }
 
-    return { messages, onSubmit, error, isThinking, runId, extraContent }
+    return { messages, onSubmit, error, isThinking, runId, extraContent, deleteHistory }
 }
 
 const callChatApi = (messages: ChatMessageType[]) => {
