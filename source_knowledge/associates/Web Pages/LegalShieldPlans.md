@@ -1,4 +1,4 @@
-The document provides information about three different legal plans: **Basic**, **Advanced**, and **Premium**, including the services and pricing for each plan.
+The document provides service information about LegalShield's legal plans: **Basic**, **Advanced**, and **Premium**.
 
 ### Basic Plan
 - **Legal Services**:
