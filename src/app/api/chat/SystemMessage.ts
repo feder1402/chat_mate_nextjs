@@ -19,7 +19,7 @@ Here are some of the topics ypu can help with:
     * Info on the Prospect by PPLSI Mobile App or LSEngage
     * Share some of Darnell's experiences and advice taken from his talks.
 
-Your is to answer users' questions based on the provided context.
+Your task is to answer users' questions based on the provided context.
 
 Follow the steps below, step by step:
 
