@@ -7,7 +7,7 @@ const EXTRA_CONTENT_TAG = '<extra_content>'
 const SESSION_ID = uuidv4()
 
 const useChat = (storagekey: string, initialMessages: ChatMessageType[] = []) => {
-    const [messages, setMessages, deleteHistory] = useSessionStorage<ChatMessageType[]>(storagekey, initialMessages, { initializeWithValue: false })
+    const [messages, setMessages] = useSessionStorage<ChatMessageType[]>(storagekey, initialMessages, { initializeWithValue: false })
     const [error, setError] = useState('')
     const [isThinking, setIsThinking] = useState(false)
     const [runId, setRunId] = useState<string | null | undefined>(undefined)
@@ -78,7 +78,7 @@ const useChat = (storagekey: string, initialMessages: ChatMessageType[] = []) =>
         }
     }
 
-    return { messages, onSubmit, error, isThinking, runId, extraContent, deleteHistory }
+    return { messages, onSubmit, error, isThinking, runId, extraContent }
 }
 
 const callChatApi = (messages: ChatMessageType[]) => {

@@ -17,7 +17,7 @@ const DEFAULT_RELATED_QUESTIONS = [
 
 export default function ChatBot() {
 
-  const { messages, onSubmit, error, isThinking, runId, extraContent, deleteHistory } = useChat('chat_mate_history', initialMessages)
+  const { messages, onSubmit, error, isThinking, runId, extraContent } = useChat('chat_mate_history', initialMessages)
 
   const onFeedback = async (thumbFeedback: ThumbsFeedbackType) => {
     if (!runId) {
