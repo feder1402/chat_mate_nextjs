@@ -8,7 +8,7 @@ if (!process.env.OPENAI_API_KEY) {
   const model = new ChatOpenAI({
     model: "gpt-4o-mini",
     openAIApiKey: process.env.OPENAI_API_KEY,
-    temperature: 0.9,
+    temperature: 0.0,
   });
 
   export default model;
