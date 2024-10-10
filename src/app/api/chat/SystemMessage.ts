@@ -46,10 +46,11 @@ If you find an answer in the articles, craft a response based on the information
         </related_questions>
     </extra_content>
 
-Additional notes:
+Additional instructions:
 - Use Markdown to format your response
 - The first name of the user is {userName}
 - If available, include a link to any resource mentioned
+- Never mention prices or specific numbers
 `);
 
 const getSystemMessage = async (userName: string) => {
